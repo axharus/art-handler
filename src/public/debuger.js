@@ -153,15 +153,6 @@ try {
         timeDiff /= 1000;
         return Math.round(timeDiff);
     };
-
-
-    //Test cases
-    ajax.get('https://adservice.google.com/adsid/google/ui', {}, function (a, b, c) {
-        // console.log(a,b,c);
-    });
-    ajax.get('/js_e', {}, function (a, b, c) {
-        // console.log(a,b,c);
-    });
 } catch (e) {
     console.log('Something wrong with debuger', e);
 }
