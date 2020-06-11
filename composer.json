@@ -1,0 +1,26 @@
+{
+    "name": "axharus/art-handler",
+    "description": "This package works with special art-sites.org api to notify our developers that something wrong happend",
+    "authors": [
+        {
+            "name": "Alexey Kharus",
+            "email": "axharus@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "laravel/framework": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Axharus\\ArtHandler\\" : "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Axharus\\ArtHandler\\ArtHandlerServiceProvider"
+            ]
+        }
+    }
+}
