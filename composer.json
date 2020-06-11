@@ -7,6 +7,8 @@
             "email": "axharus@gmail.com"
         }
     ],
+    "type": "library",
+    "license": "MIT",
     "version": "1.0",
     "require": {
         "guzzlehttp/guzzle": "^6.3",
@@ -22,6 +24,9 @@
             "providers": [
                 "Axharus\\ArtHandler\\ArtHandlerServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-master": "6.5-dev"
         }
     }
 }
