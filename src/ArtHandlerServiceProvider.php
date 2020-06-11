@@ -9,9 +9,6 @@ class ArtHandlerServiceProvider extends ServiceProvider{
     }
 
     public function register() {
-//        $this->app->singleton(ArtHandler::class, function(){
-//            return new ArtHandler();
-//        });
         $this->publishes([
             __DIR__.'/public' => public_path('vendor/debuger'),
         ], 'public');
