@@ -49,7 +49,7 @@ class ArtHandlerSender {
                 'path'          => $this->path,
                 'ip'            => $this->ip,
                 'type'          => $this->type,
-                'error_content' => \Str::limit($this->error_content, 1000, '...'),
+                'error_content' => substr($this->error_content, 0, 1000) . '...',
                 'browser'       => $this->browser??$_SERVER['HTTP_USER_AGENT']??'',
                 'screen_size'   => $this->screen_size,
                 'os'            => $this->os,
