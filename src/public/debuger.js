@@ -72,7 +72,7 @@ try {
 
     error_handler = function (content, status) {
         let info = {
-            error: content,
+            error: content.substring(0,1000),
             path: window.location.href,
             screen: window.innerWidth + "x" + window.innerHeight,
             scroll: window.pageYOffset,
