@@ -17,11 +17,17 @@ Install package
 $ composer require axharus/art-handler
 ```
 
+Add provider to app.js if laravel version is lower than 5.5
+```php
+\Axharus\ArtHandler\ArtHandlerServiceProvider::class
+```
+
 Publish resources
 
 ```sh
 $ php artisan vendor:publish --provider="Axharus\ArtHandler\ArtHandlerServiceProvider"   
 ```
+For production it is better to use babale because debuger.js is written on ES6
 
 Install debbuger.js into your template. Please install it in head section on top of outher in order to catch all error in your application.
 
