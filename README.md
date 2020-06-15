@@ -20,7 +20,7 @@ $ composer require axharus/art-handler
 Publish resources
 
 ```sh
-$ php artisan vendor:publish --provider="AxHarus\Excel\ExcelServiceProvider"   
+$ php artisan vendor:publish --provider="Axharus\ArtHandler\ArtHandlerServiceProvider"   
 ```
 
 Install debbuger.js into your template. Please install it in head section on top of outher in order to catch all error in your application.
