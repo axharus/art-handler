@@ -56,6 +56,7 @@ try {
             return false;
         }
         count++;
+        let status_code = 500;
 
 
         let error_content = "JS Error \n";
@@ -64,10 +65,11 @@ try {
             error_content += "Stacktrace: " + e.error.stack + "\n";
         } else if (e.target) {
             error_content += "Error with element: " + e.target.outerHTML + "\n";
+            status_code = 404;
         } else {
             error_content += "Some unexpect error: " + JSON.stringify(temp1) + "\n"
         }
-        error_handler(error_content, 500);
+        error_handler(error_content, status_code);
     }, true);
 
     error_handler = function (content, status) {
