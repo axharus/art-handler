@@ -16,6 +16,7 @@ class ArtHandlerSender {
     private $screen_size;
     private $os;
     private $status_code;
+    private $referer;
 
     /**
      * ArtHandlerSender constructor.
@@ -34,6 +35,8 @@ class ArtHandlerSender {
         $this->screen_size   = isset($params['screen_size']) ? $params['screen_size'] : '';
         $this->os            = isset($params['os']) ? $params['os'] : '';
         $this->status_code   = isset($params['status_code']) ? $params['status_code'] : '4';
+        $this->referer       = isset($params['referer']) ? $params['referer'] : isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Empty';
+
 
     }
 
@@ -49,11 +52,12 @@ class ArtHandlerSender {
                 'path'          => $this->path,
                 'ip'            => $this->ip,
                 'type'          => $this->type,
-                'error_content' => substr($this->error_content, 0, 1000) . '...',
+                'error_content' => substr($this->error_content, 0, 1000).'...',
                 'browser'       => $this->browser ? $this->browser : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
                 'screen_size'   => $this->screen_size,
                 'os'            => $this->os,
-                'status_code'   => $this->status_code
+                'status_code'   => $this->status_code,
+                'referer'       => $this->referer
             ]
         ]);
 
