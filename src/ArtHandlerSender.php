@@ -27,17 +27,21 @@ class ArtHandlerSender {
      */
     public function __construct($params = []) {
         $this->api           = env('ARTDEBUGER_API', false);
-        $this->path          = isset($params['path']) ? $params['path'] : url()->full();
-        $this->ip            = isset($params['ip']) ? $params['ip'] : request()->ip();
-        $this->type          = isset($params['type']) ? $params['type'] : "php";
-        $this->error_content = isset($params['error_content']) ? $params['error_content'] : 'Empty';
-        $this->browser       = isset($params['HTTP_USER_AGENT']) ? $params['HTTP_USER_AGENT'] : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        $this->screen_size   = isset($params['screen_size']) ? $params['screen_size'] : '';
-        $this->os            = isset($params['os']) ? $params['os'] : '';
-        $this->status_code   = isset($params['status_code']) ? $params['status_code'] : '4';
-        $this->referer       = isset($params['referer']) ? $params['referer'] : isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Empty';
+        $this->path          = $this->isne($params, 'path') ? $params['path'] : url()->full();
+        $this->ip            = $this->isne($params, 'ip') ? $params['ip'] : request()->ip();
+        $this->type          = $this->isne($params, 'type') ? $params['type'] : "php";
+        $this->error_content = $this->isne($params, 'error_content') ? $params['error_content'] : 'Empty';
+        $this->browser       = $this->isne($params, 'HTTP_USER_AGENT') ? $params['HTTP_USER_AGENT'] : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        $this->screen_size   = $this->isne($params, 'screen_size') ? $params['screen_size'] : 'null';
+        $this->os            = $this->isne($params, 'os') ? $params['os'] : 'null';
+        $this->status_code   = $this->isne($params, 'status_code') ? $params['status_code'] : '4';
+        $this->referer       = $this->isne($params, 'referer') ? $params['referer'] : isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Empty';
 
 
+    }
+
+    public function isne($array, $key){
+        return isset($array[$key]) && !empty($array[$key]);
     }
 
     public function send() {
@@ -53,7 +57,7 @@ class ArtHandlerSender {
                 'ip'            => $this->ip,
                 'type'          => $this->type,
                 'error_content' => substr($this->error_content, 0, 1000).'...',
-                'browser'       => $this->browser ? $this->browser : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+                'browser'       => $this->browser ? $this->browser : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'null',
                 'screen_size'   => $this->screen_size,
                 'os'            => $this->os,
                 'status_code'   => $this->status_code,
