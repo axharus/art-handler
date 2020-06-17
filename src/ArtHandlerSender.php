@@ -45,30 +45,38 @@ class ArtHandlerSender {
     }
 
     public function send() {
-        if (env('APP_DEBUG') && ! env('ARTDEBUGER_FORCEDEBUG', false)) {
-            return 'Not enabled';
+        try{
+            if (env('APP_DEBUG') && ! env('ARTDEBUGER_FORCEDEBUG', false)) {
+                return 'Not enabled';
+            }
+
+
+
+            $client   = new Client();
+            $root     = env('ARTDEBUGER_ALTERNATIVE', 'https://qa.art-sites.org');
+            $response = $client->get($root.'/receive', [
+                'query' => [
+                    'api'           => $this->api,
+                    'path'          => $this->path,
+                    'ip'            => $this->ip,
+                    'type'          => $this->type,
+                    'error_content' => substr($this->error_content, 0, 1000).'...',
+                    'browser'       => $this->browser ? $this->browser : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'null',
+                    'screen_size'   => $this->screen_size,
+                    'os'            => $this->os,
+                    'status_code'   => $this->status_code,
+                    'referer'       => $this->referer
+                ]
+            ]);
+
+
+            return [
+                'body'   => (string) $response->getBody(),
+                'status' => $response->getStatusCode()
+            ];
+        }catch (\Exception $e){
+            dump('Art handler execpiton');
+            return 'fail';
         }
-        $client   = new Client();
-        $root     = env('ARTDEBUGER_ALTERNATIVE', 'https://qa.art-sites.org');
-        $response = $client->get($root.'/receive', [
-            'query' => [
-                'api'           => $this->api,
-                'path'          => $this->path,
-                'ip'            => $this->ip,
-                'type'          => $this->type,
-                'error_content' => substr($this->error_content, 0, 1000).'...',
-                'browser'       => $this->browser ? $this->browser : isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'null',
-                'screen_size'   => $this->screen_size,
-                'os'            => $this->os,
-                'status_code'   => $this->status_code,
-                'referer'       => $this->referer
-            ]
-        ]);
-
-
-        return [
-            'body'   => (string) $response->getBody(),
-            'status' => $response->getStatusCode()
-        ];
     }
 }
