@@ -42,4 +42,28 @@ class ArtHandler extends Handler implements ExceptionHandler {
 
         return parent::report($e);
     }
+
+    public static function scriptLoader($link){
+        global $art_microtime;
+        $time_to_load =round(microtime(true) - $art_microtime, 2);
+        $preventor = '[';
+        $com = "";
+        foreach (explode(',', env("ARTDEBUGER_ARTPREVENTOR", "")) as $item) {
+            if($item){
+                $preventor.=$com.intval($item);
+                $com = ',';
+            }
+        }
+        $preventor .= ']';
+
+        $debuger = env("ARTDEBUGER_JS_DEBUG", false) ? 'true' : 'false';
+
+        $output = "<script>\n";
+        $output .= "window.artdebug = ".$debuger.";\n";
+        $output .= "window.artpreventor = ".$preventor.";\n";
+        $output .= "window.artloadingtime = ".$time_to_load.";\n\n";
+        $output .= file_get_contents(public_path().$link);
+        $output .= "</script>";
+        return $output;
+    }
 }

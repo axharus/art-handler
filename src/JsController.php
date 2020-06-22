@@ -8,11 +8,12 @@ use Illuminate\Routing\Controller;
 class JsController extends Controller {
     public function index() {
         $sender = new ArtHandlerSender([
-            "type"          => "js",
+            "type"          => \request()->input('type'),
             "error_content" => \request()->input('error'),
             "path"          => \request()->input('path'),
             "screen_size"   => \request()->input('screen'),
-            "status_code"      => \request()->input('status_code')
+            "status_code"   => \request()->input('status_code'),
+            "time"          => \request()->input('time')
         ]);
         $status = $sender->send();
 
