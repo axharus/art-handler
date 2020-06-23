@@ -48,7 +48,7 @@ class ArtHandler extends Handler implements ExceptionHandler {
         $time_to_load =round(microtime(true) - $art_microtime, 2);
         $preventor = '[';
         $com = "";
-        foreach (explode(',', env("ARTDEBUGER_ARTPREVENTOR", "")) as $item) {
+        foreach (explode(',', env("ARTDEBUGER_PREVENTOR", "")) as $item) {
             if($item){
                 $preventor.=$com.intval($item);
                 $com = ',';
@@ -62,6 +62,7 @@ class ArtHandler extends Handler implements ExceptionHandler {
         $output .= "window.artdebug = ".$debuger.";\n";
         $output .= "window.artpreventor = ".$preventor.";\n";
         $output .= "window.artloadingtime = ".$time_to_load.";\n\n";
+        $output .= "window.arthandlerurl = '".env('ARTDEBUGER_HANDLER_URL', '')."';\n\n";
         $output .= file_get_contents(public_path().$link);
         $output .= "</script>";
         return $output;

@@ -6,6 +6,11 @@ class ArtHandler {
         this.speed_breakpoint = 14000;
         this.speed_js_trashhole = 9;
         this.speed_server_trashhole = 3;
+        this.handle_url = '/arthandler/receive';
+
+        if(window.arthandlerurl){
+            this.handle_url = window.arthandlerurl;
+        }
 
 
 
@@ -46,7 +51,10 @@ class ArtHandler {
         if (window.artdebug && window.artdebug === true) {
             console.log('Content before sending: ', info);
         }
-        this.ajax_get('/arthandler/receive', info, function (a) {
+        if(window.arthandlerurl){
+
+        }
+        this.ajax_get(this.handle_url, info, function (a) {
             if (window.artdebug && window.artdebug === true) {
                 console.log('Response: ', a);
             }
