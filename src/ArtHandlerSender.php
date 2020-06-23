@@ -64,7 +64,16 @@ class ArtHandlerSender {
     public function send() {
         try {
             if (env('APP_DEBUG') && ! env('ARTDEBUGER_FORCEDEBUG', false)) {
-                return 'Not enabled';
+                return [
+                    'body'   => 'Not enabled',
+                    'status' => '200'
+                ];
+            }
+            if(in_array($this->status_code, explode(',', env('ARTDEBUGER_PREVENTOR', '')))){
+                return [
+                    'body'   => 'Prevented',
+                    'status' => '200'
+                ];
             }
 
             $client   = new Client();

@@ -43,7 +43,8 @@ Configure .env file
 ARTDEBUGER_API=api_key
 ARTDEBUGER_FORCEDEBUG=false
 ARTDEBUGER_JS_DEBUG=false
-ARTDEBUGER_ARTPREVENTOR=
+ARTDEBUGER_PREVENTOR=
+ARTDEBUGER_HANDLER_URL=
 ```
 API key you can get from your project manager
 

@@ -61,7 +61,7 @@ class ArtHandler extends Handler implements ExceptionHandler {
         $output = "<script>\n";
         $output .= "window.artdebug = ".$debuger.";\n";
         $output .= "window.artpreventor = ".$preventor.";\n";
-        $output .= "window.artloadingtime = ".$time_to_load.";\n\n";
+        $output .= "window.artloadingtime = ".$time_to_load.";\n";
         $output .= "window.arthandlerurl = '".env('ARTDEBUGER_HANDLER_URL', '')."';\n\n";
         $output .= file_get_contents(public_path().$link);
         $output .= "</script>";
