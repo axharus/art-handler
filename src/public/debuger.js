@@ -107,10 +107,10 @@ class ArtHandler {
     jsRunner() {
         let $this = this;
         window.addEventListener('error', function (e) {
-            if (this.count >= 10) {
+            if ($this.count >= 10) {
                 return false;
             }
-            this.count++;
+            $this.count++;
             let status_code = 500;
 
 
@@ -138,10 +138,10 @@ class ArtHandler {
                 }
                 if (xhrquest.readyState === 4 && xhrquest.status !== 200) {
 
-                    if (this.count >= 10) {
+                    if ($this.count >= 10) {
                         return false;
                     }
-                    this.count++;
+                    $this.count++;
 
                     let error_content = "XHR Error \n";
                     let status_code = 404;
