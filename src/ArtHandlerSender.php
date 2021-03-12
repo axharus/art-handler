@@ -4,20 +4,11 @@
 namespace Axharus\ArtHandler;
 
 
+use Axharus\ArtHandler\Model\QaBundle;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 
-class ArtHandlerSender {
-    private $api;
-    private $path;
-    private $ip;
-    private $type;
-    private $error_content;
-    private $browser;
-    private $screen_size;
-    private $os;
-    private $status_code;
-    private $referer;
-    private $time;
+class ArtHandlerSender extends ArtHandlerRequest {
 
     /**
      * ArtHandlerSender constructor.
@@ -57,54 +48,51 @@ class ArtHandlerSender {
 
     }
 
-    public function isne($array, $key) {
-        return isset($array[ $key ]) && ! empty($array[ $key ]);
-    }
-
     public function send() {
         try {
-            if (env('APP_DEBUG') && ! env('ARTDEBUGER_FORCEDEBUG', false)) {
-                return [
-                    'body'   => 'Not enabled',
-                    'status' => '200'
-                ];
-            }
-            if(in_array($this->status_code, explode(',', env('ARTDEBUGER_PREVENTOR', '')))){
-                return [
-                    'body'   => 'Prevented',
-                    'status' => '200'
-                ];
+            $access = $this->check_access();
+            if($access){
+                return $access;
             }
 
-            $client   = new Client();
             $root     = env('ARTDEBUGER_ALTERNATIVE', 'https://qa.art-sites.org');
-            $query = [
-                'api'           => $this->api,
-                'path'          => $this->path,
-                'ip'            => $this->ip,
-                'type'          => $this->type,
-                'error_content' => substr($this->error_content, 0, 1000).'...',
-                'browser'       => $this->browser,
-                'screen_size'   => $this->screen_size,
-                'os'            => $this->os,
-                'status_code'   => $this->status_code,
-                'referer'       => $this->referer
-            ];
-            if($this->time){
-                $query['time'] = $this->time;
-            }
-            $response = $client->get($root.'/receive', [
-                'query' => $query
-            ]);
+            $query    = $this->create_request();
+            $response = $this->queue_request($root.'/receive', $query);
 
-            return [
-                'body'   => (string) $response->getBody(),
-                'status' => $response->getStatusCode()
-            ];
+            return $response;
         } catch (\Exception $e) {
-            dump('Art handler execpiton');
+            if(env('APP_DEBUG')){
+                dump('Art handler execpiton', $e);
+            }
 
             return 'fail';
         }
+    }
+
+
+    private function check_access(){
+        if(!env('ARTDEBUGER_ENABLED', true)){
+            return [
+                'body'   => 'Not enabled',
+                'status' => '200'
+            ];
+        }
+        if (env('APP_DEBUG') && ! env('ARTDEBUGER_FORCEDEBUG', false)) {
+            return [
+                'body'   => 'Not enabled',
+                'status' => '200'
+            ];
+        }
+        if(in_array($this->status_code, explode(',', env('ARTDEBUGER_PREVENTOR', '')))){
+            return [
+                'body'   => 'Prevented',
+                'status' => '200'
+            ];
+        }
+        return false;
+    }
+
+    public function isne($array, $key) {
+        return isset($array[ $key ]) && ! empty($array[ $key ]);
     }
 }

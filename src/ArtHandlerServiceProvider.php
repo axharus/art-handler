@@ -11,7 +11,7 @@ class ArtHandlerServiceProvider extends ServiceProvider{
         $this->publishes([
             __DIR__.'/public' => public_path('vendor/debuger'),
         ], 'public');
-
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     public function register() {
