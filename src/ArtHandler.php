@@ -44,6 +44,9 @@ class ArtHandler extends Handler implements ExceptionHandler {
     }
 
     public static function scriptLoader($link){
+        if(!env('ARTDEBUGER_ENABLED', true)){
+            return "<script>console.log('ArtDebuger is disabled')</script>";
+        }
         global $art_microtime;
         $time_to_load =round(microtime(true) - $art_microtime, 2);
         $preventor = '[';

@@ -12,8 +12,6 @@ class ArtHandler {
             this.handle_url = window.arthandlerurl;
         }
 
-
-
         this.time_start = 0;
         try {
             this.time_start = performance.now();
@@ -29,6 +27,16 @@ class ArtHandler {
 
 
     error_handler(content, status, type = 'js', time=false) {
+        if (this.count >= 10) {
+            console.log('ArtHandler: error prevented because of  > 10');
+            if(this.count === 400){
+                this.error_handler("Error amount on page bigger than 400, something wrong with browser \n", 298);
+            }
+            this.count++;
+            return false;
+        }
+        this.count++;
+
         let info = {
             error: content.substring(0, 1000),
             path: window.location.href,
@@ -69,11 +77,6 @@ class ArtHandler {
 
 
         if(server_speed > this.speed_server_trashhole){
-            if (this.count >= 10) {
-                return false;
-            }
-            this.count++;
-
             error_content += "SERVER Load Time: " + server_speed + "\n";
             this.error_handler(error_content, status_code, 'speed_server', server_speed);
         }
@@ -93,11 +96,6 @@ class ArtHandler {
         }
 
         if(js_speed > this.speed_js_trashhole){
-            if (this.count >= 10) {
-                return false;
-            }
-            this.count++;
-
             error_content += "JS Load Time: " + js_speed + "\n";
             this.error_handler(error_content, status_code, 'speed_js', js_speed);
         }
@@ -107,12 +105,7 @@ class ArtHandler {
     jsRunner() {
         let $this = this;
         window.addEventListener('error', function (e) {
-            if ($this.count >= 10) {
-                return false;
-            }
-            $this.count++;
             let status_code = 500;
-
 
             let error_content = "JS Error \n";
             if (e.error) {
@@ -137,12 +130,6 @@ class ArtHandler {
                     parent(oEvent);
                 }
                 if (xhrquest.readyState === 4 && xhrquest.status !== 200) {
-
-                    if ($this.count >= 10) {
-                        return false;
-                    }
-                    $this.count++;
-
                     let error_content = "XHR Error \n";
                     let status_code = 404;
                     if (xhrquest.status === 0) {
@@ -254,13 +241,9 @@ class ArtHandler {
 
 
 (function () {
-
     try {
         window.artHandler = new ArtHandler();
     } catch (e) {
         console.log('Something wrong with debuger', e);
     }
 })();
-
-
-

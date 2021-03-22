@@ -17,6 +17,12 @@ Install package
 $ composer require axharus/art-handler
 ```
 
+Migrate database
+
+```sh
+$ php artisan migrate
+```
+
 Add provider to app.js if laravel version is lower than 5.5
 ```php
 \Axharus\ArtHandler\ArtHandlerServiceProvider::class
@@ -32,7 +38,7 @@ For production it is better to use bable because debuger.js is written on ES6
 Install debbuger.js into your template. Please install it in head section on top of outer in order to catch all error in your application.
 
 ```html
-{!! \Axharus\ArtHandler\ArtHandler::scriptLoader('/vendor/debuger/debuger.js') !!}
+{!! \Axharus\ArtHandler\ArtHandler::scriptLoader('/vendor/debuger/build/debuger-min.js') !!}
 ```
 Pass path to babeled file into this function or use default if it is only for dev purposes
 
@@ -45,6 +51,8 @@ ARTDEBUGER_FORCEDEBUG=false
 ARTDEBUGER_JS_DEBUG=false
 ARTDEBUGER_PREVENTOR=
 ARTDEBUGER_HANDLER_URL=
+ARTDEBUGER_ENABLED=true
+ARTDEBUGER_CHUNKSIZE=5
 ```
 API key you can get from your project manager
 
@@ -53,3 +61,7 @@ If you want to work with plugin with ```debug=true``` set ```FORCEDEBUG=true```.
 If you want to see sending log in console set ```ARTDEBUGER_JS_DEBUG=true```
  
 If you want to prevent sending errors with some codes pass it to ```ARTDEBUGER_ARTPREVENTOR``` using comma ```404,500,403```
+
+If you want to force disable art handler set ```ARTDEBUGER_ENABLED=false```
+
+To optimize a lot of request set ```ARTDEBUGER_CHUNKSIZE```
