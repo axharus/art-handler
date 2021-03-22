@@ -14,7 +14,7 @@ class QaBundle extends Migration
     public function up()
     {
         Schema::create('qa_bundle', function(Blueprint $table){
-            $table->id('id');
+            $table->bigIncrements('id');
             $table->longText('request_data');
             $table->timestamps();
         });
