@@ -8,6 +8,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var ArtHandler = /*#__PURE__*/function () {
   function ArtHandler() {
+    var _this = this;
+
     _classCallCheck(this, ArtHandler);
 
     this.endTime = 0;
@@ -17,11 +19,19 @@ var ArtHandler = /*#__PURE__*/function () {
     this.speed_js_trashhole = 9;
     this.speed_server_trashhole = 3;
     this.handle_url = '/arthandler/receive';
+    this.path = window.location.href;
+    this.screen = window.innerWidth + "x" + window.innerHeight;
+    this.dom_loaded = false;
 
     if (window.arthandlerurl) {
       this.handle_url = window.arthandlerurl;
     }
 
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        _this.dom_loaded = true;
+      }, 1000);
+    });
     this.time_start = 0;
 
     try {
@@ -56,9 +66,9 @@ var ArtHandler = /*#__PURE__*/function () {
       this.count++;
       var info = {
         error: content.substring(0, 1000),
-        path: window.location.href,
-        screen: window.innerWidth + "x" + window.innerHeight,
-        scroll: window.pageYOffset,
+        path: this.path,
+        screen: this.screen,
+        scroll: this.dom_loaded ? window.pageYOffset : 0,
         timer: this.end(),
         status_code: status !== null && status !== void 0 ? status : 500,
         type: type
