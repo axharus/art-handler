@@ -1,6 +1,6 @@
 {
   "name": "art-handler",
-  "version": "1.0.0",
+  "version": "1.2.3",
   "description": "This package only for art-sites.org clients.",
   "main": "index.js",
   "scripts": {
